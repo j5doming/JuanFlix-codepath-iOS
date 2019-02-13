@@ -1,0 +1,6 @@
+framework module Pods_JuanFlixUITests {
+  umbrella header "Pods-JuanFlixUITests-umbrella.h"
+
+  export *
+  module * { export * }
+}
