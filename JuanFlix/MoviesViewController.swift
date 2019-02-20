@@ -39,24 +39,29 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
                 self.movies = dataDictionary["results"] as! [[String:Any]]
                 
                 self.moviesTableView.reloadData()
-                print(dataDictionary)
-                
-                // TODO: Get the array of movies
-                // TODO: Store the movies in a property to use elsewhere
-                // TODO: Reload your table view data
-                
             }
         }
         task.resume()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return movies.count
     }
     
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableView.automaticDimension
+    }
+    
+    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 100
+    }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        let cell = tableView.dequeueReusableCell(withIdentifier: "MovieTableViewCell") as! MovieTableViewCell
+        let cellID = "MovieTableViewCell"
+        let cell = tableView.dequeueReusableCell(withIdentifier: cellID) as! MovieTableViewCell
         
         let movie = movies[indexPath.row]
         let title = movie["title"] as! String
@@ -70,7 +75,7 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
         let baseUrl = "https://image.tmdb.org/t/p/\(size)"
         let posterPath = movie["poster_path"] as! String
         let posterUrl = URL(string: baseUrl + posterPath)
-        
+    
         cell.posterImageView.af_setImage(withURL: posterUrl!)
         
         
@@ -80,12 +85,26 @@ class MoviesViewController: UIViewController, UITableViewDataSource, UITableView
 
     /*
     // MARK: - Navigation
+ */
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+//         Get the new view controller using segue.destination.
+//         Pass the selected object to the new view controller.
+        
+        // find the selected movie
+        let cell = sender as! UITableViewCell
+        let indexPath = moviesTableView.indexPath(for: cell)!
+        let movie = movies[indexPath.row]
+        
+        let detailsViewController = segue.destination as! MovieDetailsViewController
+        
+        detailsViewController.movie = movie
+        
+        moviesTableView.deselectRow(at: indexPath, animated: true)
+        
+        // pass the movie to the details view controller
     }
-    */
+ 
 
 }
