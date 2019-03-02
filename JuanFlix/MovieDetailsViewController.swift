@@ -11,9 +11,9 @@ import AlamofireImage
 class MovieDetailsViewController: UIViewController {
     
     @IBOutlet weak var backdropImageView: UIImageView!
-    @IBOutlet weak var posterImageView: UIImageView!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var synopsisLabel: UILabel!
+    @IBOutlet weak var posterImageView: UIImageView!
     
     
     
